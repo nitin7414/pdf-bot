@@ -27,7 +27,7 @@ def build_rag(uploaded_file):
     chunks = splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings(
-        model="nomic-ai/nomic-embed-text-v1"
+        model="nomic-ai/nomic-embed-text-v1",
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE")
     )

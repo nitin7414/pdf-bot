@@ -27,6 +27,7 @@ def build_rag(uploaded_file):
     chunks = splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings(
+        model="nomic-ai/nomic-embed-text-v1"
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE")
     )
@@ -35,7 +36,7 @@ def build_rag(uploaded_file):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     llm = ChatOpenAI(
-        model="nomic-ai/nomic-embed-text-v1",
+        model="mistralai/devstral-2512:free",
         temperature=0.2,
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE", "https://openrouter.ai/api/v1")

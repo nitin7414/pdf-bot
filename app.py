@@ -5,8 +5,6 @@ from rag_engine import build_rag, ask_question
 from dotenv import load_dotenv
 import os
 
-st.write("OPENROUTER_API_KEY exists:", "OPENROUTER_API_KEY" in os.environ)
-st.write("OPENROUTER_API_BASE:", os.environ.get("OPENROUTER_API_BASE"))
 # Force reload of .env file, overwriting any existing env vars
 load_dotenv(override=True)
 st.markdown("""

@@ -28,7 +28,7 @@ def build_rag(uploaded_file):
 
     embeddings = OpenAIEmbeddings(
         api_key=os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("OPENAI_API_BASE", "https://openrouter.ai/api/v1")
+        base_url=os.getenv("OPENAI_API_BASE")
     )
     vectorstore = FAISS.from_documents(chunks, embeddings)
 

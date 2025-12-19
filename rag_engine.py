@@ -5,7 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 
@@ -21,11 +21,10 @@ def build_rag(uploaded_file):
     )
     chunks = splitter.split_documents(documents)
 
-    embeddings = OpenAIEmbeddings(
-    model="nomic-ai/nomic-embed-text-v1",
-    openai_api_key=os.environ["OPENROUTER_API_KEY"],
-    openai_api_base="https://openrouter.ai/api/v1"
+    embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
+
 
     vectorstore = FAISS.from_documents(chunks, embeddings)
 

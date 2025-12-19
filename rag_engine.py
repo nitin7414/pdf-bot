@@ -2,9 +2,6 @@
 import os
 from dotenv import load_dotenv
 import tempfile
-# Force reload of .env file, overwriting any existing env vars
-load_dotenv(override=True)
-
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -12,8 +9,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
-load_dotenv()
-
+load_dotenv(override=True)
 def build_rag(uploaded_file):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
         tmp_file.write(uploaded_file.read())
@@ -27,20 +23,22 @@ def build_rag(uploaded_file):
     chunks = splitter.split_documents(documents)
 
     embeddings = OpenAIEmbeddings(
-        model="nomic-ai/nomic-embed-text-v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-        base_url=os.getenv("OPENROUTER_API_BASE")
+    model="nomic-ai/nomic-embed-text-v1",
+    openai_api_key=os.environ["OPENROUTER_API_KEY"],
+    openai_api_base="https://openrouter.ai/api/v1"
     )
+
     vectorstore = FAISS.from_documents(chunks, embeddings)
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     llm = ChatOpenAI(
-        model="mistralai/devstral-2512:free",
-        temperature=0.2,
-        api_key=os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("OPENAI_API_BASE", "https://openrouter.ai/api/v1")
+    model="mistralai/devstral-2512:free",
+    temperature=0.2,
+    openai_api_key=os.environ["OPENROUTER_API_KEY"],
+    openai_api_base="https://openrouter.ai/api/v1"
     )
+
 
     return retriever, llm
 

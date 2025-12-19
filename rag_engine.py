@@ -28,8 +28,8 @@ def build_rag(uploaded_file):
 
     embeddings = OpenAIEmbeddings(
         model="nomic-ai/nomic-embed-text-v1",
-        api_key=os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("OPENAI_API_BASE")
+        api_key=os.getenv("OPENROUTER_API_KEY"),
+        base_url=os.getenv("OPENROUTER_API_BASE")
     )
     vectorstore = FAISS.from_documents(chunks, embeddings)
 

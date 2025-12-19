@@ -1,8 +1,3 @@
-import streamlit as st
-import os
-
-st.write("OPENROUTER_API_KEY exists:", "OPENROUTER_API_KEY" in os.environ)
-st.write("OPENROUTER_API_BASE:", os.environ.get("OPENROUTER_API_BASE"))
 
 import os
 from dotenv import load_dotenv

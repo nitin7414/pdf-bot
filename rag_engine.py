@@ -16,19 +16,19 @@ def build_rag(uploaded_file):
     loader = PyPDFLoader(temp_path)
     documents = loader.load()
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
+        chunk_size=800,
+        chunk_overlap=100
     )
     chunks = splitter.split_documents(documents)
 
     embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    model_name="sentence-transformers/all-mpnet-base-v2"
     )
 
 
     vectorstore = FAISS.from_documents(chunks, embeddings)
 
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
     llm = ChatOpenAI(
     model="mistralai/devstral-2512:free",
@@ -49,9 +49,9 @@ def ask_question(retriever, llm, question, chat_history):
 
     messages = [
         SystemMessage(
-            content="You are a helpful assistant. "
-                    "Answer ONLY using the context below. "
-                    "If the answer is not in the context, say you don't know."
+            content="You are an expert document assistant."
+            "Use the provided context to answer precisely and completely."
+            "If multiple parts of the context are relevant, combine them."
         ),
         SystemMessage(content=context)
     ]

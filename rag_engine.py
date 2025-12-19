@@ -35,7 +35,7 @@ def build_rag(uploaded_file):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     llm = ChatOpenAI(
-        model="text-embedding-3-small",
+        model="nomic-ai/nomic-embed-text-v1",
         temperature=0.2,
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OPENAI_API_BASE", "https://openrouter.ai/api/v1")
